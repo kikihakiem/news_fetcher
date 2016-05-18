@@ -5,8 +5,8 @@ describe NewsFetcher::Extractor do
     before do
       zip_file_path = File.expand_path('spec/fixtures/compressed.zip')
       @entries = []
-      NewsFetcher::Extractor.each_xml(zip_file_path) do |entry|
-        @entries << entry
+      NewsFetcher::Extractor.each_xml(zip_file_path) do |filename, content|
+        @entries << {filename: filename, content: content}
       end
     end
 
@@ -15,8 +15,10 @@ describe NewsFetcher::Extractor do
     end
 
     it 'yields entry content' do
-      @entries.first.must_equal 'file1 content'
-      @entries.last.must_equal 'content of file2'
+      @entries.first[:filename].must_equal 'file1.txt'
+      @entries.first[:content].must_equal 'file1 content'
+      @entries.last[:filename].must_equal 'file2.txt'
+      @entries.last[:content].must_equal 'content of file2'
     end
   end
 end

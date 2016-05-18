@@ -11,7 +11,7 @@ end
 desc 'Sample task to run'
 task :sample do
   NewsFetcher.each_news('http://feed.omgili.com/5Rh5AMTrc4Pv/mainstream/posts/') do |news|
-    puts news.slug
+    puts news.id
   end
 end
 

@@ -34,7 +34,6 @@ module NewsFetcher
   class Parser
     def self.parse(xml)
       parser = SaxParser.new do |parsed|
-        parsed.set_slug
         return parsed
       end
 

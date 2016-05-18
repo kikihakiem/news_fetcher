@@ -9,7 +9,9 @@ module NewsFetcher
     news_count = 0
     Downloader.each_zip(http_folder, max_zip_file) do |zip_file|
       Extractor.each_xml(zip_file) do |id, xml|
-        yield Parser.parse(xml)
+        news = Parser.parse(xml)
+        news.id = id
+        yield news
 
         news_count += 1
         break if news_count >= max_news_count

@@ -5,14 +5,7 @@ module NewsFetcher
           :post_url, :post_date, :post_time, :username, :post, :signature,
           :country, :main_image]
 
-    attr_accessor :external_links, *ATTRS
-    attr_reader :slug
-
-    def self.slugify(url)
-      path = url.split('://') # strip protocol
-      path = path.size == 1 ? path[0] : path[1]
-      path.downcase.gsub(/[^a-z0-9]+/, '-')
-    end
+    attr_accessor :id, :external_links, *ATTRS
 
     def [](sym)
       self.send(sym)
@@ -22,12 +15,8 @@ module NewsFetcher
       self.send(:"#{sym}=", value)
     end
 
-    def set_slug
-      @slug = @post_url ? slugify(@post_url) : slugify(@topic_url)
-    end
-
-    def slugify(url)
-      self.class.slugify(url)
+    def id=(id)
+      @id = id.split('.').first
     end
 
     def save
