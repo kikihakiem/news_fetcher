@@ -1,15 +1,15 @@
 require 'test_helper'
 
 describe NewsFetcher::News do
-  describe 'id=' do
+  describe 'hash=' do
     subject do
       news = NewsFetcher::News.new
-      news.id = 'foo.xml'
+      news.hash = 'foo.xml'
       news
     end
 
     it 'strips file extension' do
-      subject.id.must_equal 'foo'
+      subject.hash.must_equal 'foo'
     end
   end
 end

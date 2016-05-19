@@ -5,7 +5,7 @@ module NewsFetcher
           :post_url, :post_date, :post_time, :username, :post, :signature,
           :country, :main_image]
 
-    attr_accessor :id, :external_links, *ATTRS
+    attr_accessor :hash, :external_links, *ATTRS
 
     def [](sym)
       self.send(sym)
@@ -15,8 +15,8 @@ module NewsFetcher
       self.send(:"#{sym}=", value)
     end
 
-    def id=(id)
-      @id = id.split('.').first
+    def hash=(filename)
+      @hash = filename.split('.').first
     end
 
     def save
