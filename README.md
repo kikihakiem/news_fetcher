@@ -20,7 +20,14 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Run via rake task:
+
+```bash
+git clone git@github.com:kikihakiem/news_fetcher.git
+cd news_fetcher
+bundle exec rake install
+bundle exec rake fetch
+```
 
 ## Development
 
