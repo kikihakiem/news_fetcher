@@ -3,3 +3,5 @@ require 'news_fetcher'
 
 require 'minitest/autorun'
 require 'minitest/spec'
+
+require 'byebug'

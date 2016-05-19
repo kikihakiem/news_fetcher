@@ -1,5 +1,4 @@
 require 'test_helper'
-require 'byebug'
 
 describe NewsFetcher::Downloader do
   describe 'each_zip' do
@@ -8,7 +7,7 @@ describe NewsFetcher::Downloader do
 
       http_folder = 'http://feed.omgili.com/5Rh5AMTrc4Pv/mainstream/posts/'
       file_path = File.expand_path('spec/fixtures/compressed.zip')
-      @file_checksum = Digest::SHA2.file(file_path).hexdigest
+      @file_checksum = Digest::MD5.file(file_path).hexdigest
 
       local_file = File.expand_path('downloads/1463248613102.zip')
       File.delete(local_file) if File.exist?(local_file)
@@ -30,7 +29,7 @@ describe NewsFetcher::Downloader do
     end
 
     it 'doesnt create corrupt file' do
-      downloaded_checksum = Digest::SHA2.file(@downloads.first).hexdigest
+      downloaded_checksum = Digest::MD5.file(@downloads.first).hexdigest
       downloaded_checksum.must_equal @file_checksum
     end
   end
