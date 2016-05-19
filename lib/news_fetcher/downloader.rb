@@ -23,10 +23,11 @@ module NewsFetcher
         hydra.queue(request)
 
         zip_file_count += 1
-        break if zip_file_count >= max_zip_files
+        break if max_zip_files && zip_file_count >= max_zip_files
       end
 
       hydra.run
+      zip_file_count
     end
 
     def self.on_complete_request(file_url, local_path)
