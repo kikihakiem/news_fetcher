@@ -26,7 +26,6 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "typhoeus", "~> 1.0"
   spec.add_dependency "rubyzip", "~> 1.2"
-  spec.add_dependency "ox", "~> 2.4"
   spec.add_development_dependency "bundler", "~> 1.11"
   spec.add_development_dependency "rake", "~> 10.0"
   spec.add_development_dependency "minitest", "~> 5.0"
