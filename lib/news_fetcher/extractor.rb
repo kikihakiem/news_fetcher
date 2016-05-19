@@ -5,7 +5,10 @@ module NewsFetcher
     def self.each_xml(zip_file_path)
       Zip::File.open(zip_file_path) do |file|
         file.each do |entry|
-          yield [entry.name, entry.get_input_stream.read] if entry.file?
+          file_name = entry.name
+          content = entry.get_input_stream.read
+
+          yield [file_name, content] if entry.file?
         end
       end
     end

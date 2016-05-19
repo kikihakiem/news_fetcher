@@ -10,13 +10,15 @@ module NewsFetcher
       response = Typhoeus.get(http_folder)
       response.body.scan(/>(\d+.zip)</) do |path|
         filename = path.first
-        full_path = "#{download_path}/#{filename}"
+        file_path = "#{download_path}/#{filename}"
+        file_url = "#{http_folder}#{filename}"
         # skip if file is already processed
         # redownload if file corrupted
-        next if File.exist?(full_path) && Extractor.valid_zip?(full_path)
+        next if File.exist?(file_path) && Extractor.valid_zip?(file_path)
         
-        request = create_request(http_folder, filename, full_path) do |local_path|
-          yield local_path
+        request = on_complete_request(file_url, file_path) do |zip_file_path|
+          # yield when download is completed
+          yield zip_file_path
         end
         hydra.queue(request)
 
@@ -27,9 +29,9 @@ module NewsFetcher
       hydra.run
     end
 
-    def self.create_request(http_folder, filename, local_path)
+    def self.on_complete_request(file_url, local_path)
       zip_file = nil
-      request = Typhoeus::Request.new("#{http_folder}#{filename}")
+      request = Typhoeus::Request.new(file_url)
       request.on_body do |chunk|
         # need to put File.open here,
         # otherwise it will be 'too many open files' error

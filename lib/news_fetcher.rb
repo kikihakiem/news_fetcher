@@ -7,10 +7,10 @@ require 'news_fetcher/news'
 module NewsFetcher
   def self.each_news(http_folder, max_zip_file = 1, max_news_count = 10)
     news_count = 0
-    Downloader.each_zip(http_folder, max_zip_file) do |zip_file|
-      Extractor.each_xml(zip_file) do |id, xml|
+    Downloader.each_zip(http_folder, max_zip_file) do |zip_file_path|
+      Extractor.each_xml(zip_file_path) do |filename, xml|
         news = Parser.parse(xml)
-        news.id = id
+        news.hash = filename
         yield news
 
         news_count += 1
