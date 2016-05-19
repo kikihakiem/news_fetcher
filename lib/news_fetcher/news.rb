@@ -1,3 +1,5 @@
+require 'json'
+
 module NewsFetcher
   class News
     ATTRS = [:type, :forum, :forum_title, :discussion_title, :language,
@@ -17,6 +19,15 @@ module NewsFetcher
 
     def hash=(filename)
       @hash = filename.split('.').first
+    end
+
+    def to_json
+      hsh = (ATTRS + [:hash, :external_links]).reduce({}) do |result, attribute|
+        result[attribute] = self.send(attribute) if self.send(attribute)
+        result
+      end
+
+      JSON.dump(hsh)
     end
 
     def save
