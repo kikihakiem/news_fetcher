@@ -5,10 +5,6 @@ describe NewsFetcher::Downloader do
     before do
       Typhoeus::Expectation.clear
 
-      http_folder = 'http://feed.omgili.com/5Rh5AMTrc4Pv/mainstream/posts/'
-      file_path = File.expand_path('spec/fixtures/compressed.zip')
-      @file_checksum = Digest::MD5.file(file_path).hexdigest
-
       local_file = File.expand_path('downloads/1463248613102.zip')
       File.delete(local_file) if File.exist?(local_file)
 
@@ -17,20 +13,28 @@ describe NewsFetcher::Downloader do
 
       file_response = Typhoeus::Response.new(code: 200, body: File.read(file_path))
       Typhoeus.stub("#{http_folder}1463248613102.zip").and_return(file_response)
+    end
 
-      @downloads = []
+    let(:http_folder) { 'http://feed.omgili.com/5Rh5AMTrc4Pv/mainstream/posts/' }
+    let(:file_path) { File.expand_path('spec/fixtures/compressed.zip') }
+    let(:file_checksum) { Digest::MD5.file(file_path).hexdigest }
+
+    subject do
+      downloads = []
       NewsFetcher::Downloader.each_zip(http_folder, 1) do |download_path|
-        @downloads << download_path
+        downloads << download_path
       end
+
+      downloads
     end
 
     it 'downloads all files from HTTP folder' do
-      @downloads.size.must_equal 1
+      subject.size.must_equal 1
     end
 
     it 'doesnt create corrupt file' do
-      downloaded_checksum = Digest::MD5.file(@downloads.first).hexdigest
-      downloaded_checksum.must_equal @file_checksum
+      downloaded_checksum = Digest::MD5.file(subject.first).hexdigest
+      downloaded_checksum.must_equal file_checksum
     end
   end
 
