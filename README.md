@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/kikihakiem/news_fetcher.svg?branch=master)](https://travis-ci.org/kikihakiem/news_fetcher)
+
 # NewsFetcher
 
 `news_fetcher` is a gem to download, extract and publish news to redis.
